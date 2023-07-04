@@ -93,8 +93,8 @@ class CommonUtils:
     @staticmethod
     def convert_seconds(seconds):
         hours = seconds // 3600
-        minutes = (seconds % 3600) // 60
-        if minutes < 1:
+        remaining_seconds = seconds % 3600
+        minutes = remaining_seconds // 60
+        if remaining_seconds > 0 and minutes < 1:
             minutes = 1
-            hours = 0
         return hours, minutes

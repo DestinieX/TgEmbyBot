@@ -9,3 +9,4 @@ PyMySQL==1.0.2
 schedule
 apscheduler
 uvloop
+pyromod==2.0.0
