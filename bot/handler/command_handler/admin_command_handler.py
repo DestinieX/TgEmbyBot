@@ -179,24 +179,25 @@ async def delete_account(client, message):
     if await user_service.is_admin(tgid=tgid):
         msg_command = message.command
         reply_id = AppUtils.get_reply_id(message=message)
-        tg_user = await app.get_users(user_ids=tgid)
         if reply_id is None:
             if len(msg_command) == 2:
                 delete_tgid = msg_command[1]
+                tg_user = await app.get_users(user_ids=delete_tgid)
                 if not await user_service.account_exists(tgid=delete_tgid):
                     await message.reply('用户未入库，无信息')
                     return
                 if await user_service.delete_user_account(message, tgid=delete_tgid, tg_user=tg_user):
-                    await message.reply(f'<a href="tg://user?id={tgid}">{tg_user.username}</a> '
+                    await message.reply(f'<a href="tg://user?id={delete_tgid}">{tg_user.username}</a> '
                                         f' Emby账号已被删除。')
             else:
                 await message.reply('命令格式错误，请输入/delete_account tgid')
         else:
+            tg_user = await app.get_users(user_ids=reply_id)
             if not await user_service.account_exists(tgid=reply_id):
                 await message.reply('用户未入库，无信息')
                 return
             if await user_service.delete_user_account(message, tgid=reply_id, tg_user=tg_user):
-                await message.reply(f'<a href="tg://user?id={tgid}">{tg_user.username}</a> '
+                await message.reply(f'<a href="tg://user?id={reply_id}">{tg_user.username}</a> '
                                     f' Emby账号已被删除。')
     else:
         await message.reply('请勿随意使用管理员命令')
